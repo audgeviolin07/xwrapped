@@ -5,8 +5,10 @@ import { authOptions } from "@/lib/auth";
 export async function GET() {
   const session = await getServerSession(authOptions);
 
+  console.log("Session:", JSON.stringify(session, null, 2));
+
   if (!session?.accessToken) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    return NextResponse.json({ error: "Not authenticated", hasSession: !!session }, { status: 401 });
   }
 
   try {

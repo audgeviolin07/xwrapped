@@ -37,13 +37,15 @@ export default function Home() {
     setError(null);
     try {
       const response = await fetch("/api/twitter/stats");
-      if (!response.ok) {
-        throw new Error("Failed to fetch stats");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        console.error("API error:", data);
+        throw new Error(data.error || "Failed to fetch stats");
+      }
       setStats(data);
     } catch (err) {
-      setError("Failed to load your X stats");
+      const message = err instanceof Error ? err.message : "Failed to load your X stats";
+      setError(message);
       console.error(err);
     } finally {
       setLoading(false);
