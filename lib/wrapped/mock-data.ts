@@ -1,4 +1,4 @@
-import { PersonaData, ReplyGuyData, TwitterRankData } from '@/types/wrapped';
+import { PersonaData, ReplyGuyData } from '@/types/wrapped';
 
 export function getMockPersona(): PersonaData {
   const personas = [
@@ -58,11 +58,3 @@ export function getMockReplyGuy(username: string): ReplyGuyData {
   };
 }
 
-export function getMockRank(): TwitterRankData {
-  return {
-    rank: Math.floor(Math.random() * 500000) + 10000,
-    percentile: Math.floor(Math.random() * 30) + 70, // 70-99
-    category: "Engagement",
-    isMock: true
-  };
-}

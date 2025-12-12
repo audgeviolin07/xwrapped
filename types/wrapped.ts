@@ -29,7 +29,6 @@ export interface TwitterRankData {
   rank: number;
   percentile: number;
   category: string;
-  isMock: boolean;
 }
 
 export interface WrappedData {
