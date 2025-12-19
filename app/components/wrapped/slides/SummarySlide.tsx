@@ -1,52 +1,75 @@
 import { SlideProps } from '@/types/wrapped';
+import PixelBlast from '@/components/PixelBlast';
 
 export default function SummarySlide({ data }: SlideProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-white dark:bg-black">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-black dark:text-white mb-4">
-            Your Year on X
-          </h2>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Here's what you accomplished
-          </p>
-        </div>
+    <div className="relative flex flex-col items-center justify-center h-screen w-screen p-4 md:p-8 bg-[#0a0a0a] overflow-hidden">
+      {/* PixelBlast background - Cyan */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <PixelBlast
+          variant="circle"
+          pixelSize={6}
+          color="#00f5ff"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples={true}
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={true}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.25}
+          transparent={true}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
 
-        <div className="space-y-4">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-2xl p-6 text-white">
-            <div className="text-5xl font-bold mb-2">
+      <div className="relative z-10 w-full max-w-4xl text-center px-4">
+        {/* Title */}
+        <h2 className="font-geometric text-[40px] sm:text-[56px] md:text-[72px] lg:text-[96px] font-black text-[#00f5ff] neon-glow-cyan mb-6 md:mb-12 tracking-tighter leading-tight uppercase">
+          YOUR YEAR<br/>ON X
+        </h2>
+
+        <p className="text-base sm:text-lg md:text-2xl text-[#00f5ff] font-sans mb-8 md:mb-16">
+          Here's what you accomplished in 2025
+        </p>
+
+        {/* Stats grid */}
+        <div className="space-y-4 md:space-y-6 max-w-2xl mx-auto">
+          {/* Tweets */}
+          <div className="bg-black p-4 md:p-8 border border-[#00f5ff]">
+            <div className="font-geometric text-4xl sm:text-5xl md:text-6xl font-black text-[#00f5ff] mb-2">
               {data.user.metrics.tweetCount.toLocaleString()}
             </div>
-            <div className="text-sm opacity-90">Tweets</div>
+            <div className="text-[#00f5ff] font-sans text-sm md:text-lg uppercase tracking-wider">Tweets</div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-black dark:text-white mb-2">
+          {/* Followers & Following */}
+          <div className="grid grid-cols-2 gap-3 md:gap-6">
+            <div className="bg-black p-3 md:p-6 border border-[#00f5ff]">
+              <div className="font-geometric text-2xl sm:text-3xl md:text-4xl font-black text-[#00f5ff] mb-2">
                 {data.user.metrics.followersCount.toLocaleString()}
               </div>
-              <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                Followers
-              </div>
+              <div className="text-[#00f5ff] font-sans text-xs md:text-sm uppercase tracking-wider">Followers</div>
             </div>
 
-            <div className="bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-black dark:text-white mb-2">
+            <div className="bg-black p-3 md:p-6 border border-[#00f5ff]">
+              <div className="font-geometric text-2xl sm:text-3xl md:text-4xl font-black text-[#00f5ff] mb-2">
                 {data.user.metrics.followingCount.toLocaleString()}
               </div>
-              <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                Following
-              </div>
+              <div className="text-[#00f5ff] font-sans text-xs md:text-sm uppercase tracking-wider">Following</div>
             </div>
           </div>
         </div>
 
-        <div className="text-center mt-8">
-          <p className="text-zinc-500 dark:text-zinc-500 text-sm">
-            Thanks for being part of X in 2025
-          </p>
-        </div>
+        {/* Footer */}
+        <p className="text-[#00f5ff] font-sans text-xs sm:text-sm mt-8 md:mt-16">
+          Thanks for being part of X in 2025 ✨
+        </p>
       </div>
     </div>
   );

@@ -1,39 +1,61 @@
 import { SlideProps } from '@/types/wrapped';
+import PixelBlast from '@/components/PixelBlast';
 
 export default function ReplyGuySlide({ data }: SlideProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-white dark:bg-black">
-      <div className="w-full max-w-md text-center">
-        <div className="text-sm text-zinc-500 dark:text-zinc-500 mb-4 uppercase tracking-wider">
-          Your Reply Guy
+    <div className="relative flex flex-col items-center justify-center h-screen w-screen p-4 md:p-8 bg-[#0a0a0a] overflow-hidden">
+      {/* PixelBlast background - Green */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <PixelBlast
+          variant="circle"
+          pixelSize={6}
+          color="#00ff88"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples={true}
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={true}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.25}
+          transparent={true}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+
+      <div className="relative z-10 w-full max-w-4xl text-center px-4">
+        {/* Small label */}
+        <div className="text-[#00ff88] font-sans text-xs sm:text-sm uppercase tracking-widest mb-4 md:mb-8">
+          YOUR REPLY GUY
         </div>
 
-        <h2 className="text-3xl font-bold text-black dark:text-white mb-4">
-          @{data.replyGuy.username}
-        </h2>
+        {/* Reply count - huge number */}
+        <div className="font-geometric text-[80px] sm:text-[100px] md:text-[120px] lg:text-[160px] font-black text-[#00ff88] neon-glow-green mb-4 md:mb-8 tracking-tight leading-none">
+          {data.replyGuy.replyCount}
+        </div>
 
-        <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-6">
+        {/* Description text */}
+        <div className="mb-6 md:mb-12">
+          <p className="text-base sm:text-lg md:text-2xl text-[#00ff88] font-sans mb-4 md:mb-6 px-2">
+            You replied to{' '}
+            <span className="inline-block bg-black px-3 sm:px-4 py-1 sm:py-2 border border-[#00ff88]">
+              <span className="text-[#00ff88] font-bold text-xl sm:text-2xl md:text-3xl">@{data.replyGuy.username}</span>
+            </span>
+          </p>
+          <p className="text-sm sm:text-base md:text-xl text-[#00ff88] font-sans">
+            the most this year
+          </p>
+        </div>
+
+        {/* Name badge */}
+        <div className="text-[#00ff88] font-sans text-sm sm:text-base md:text-lg">
           {data.replyGuy.name}
-        </p>
-
-        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-8 mb-6">
-          <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 mb-2">
-            {data.replyGuy.replyCount}
-          </div>
-          <div className="text-sm text-zinc-600 dark:text-zinc-400">
-            replies this year
-          </div>
         </div>
-
-        <p className="text-zinc-500 dark:text-zinc-500">
-          You couldn't resist jumping into their tweets
-        </p>
-
-        {data.replyGuy.isMock && (
-          <div className="text-xs text-zinc-400 dark:text-zinc-600 mt-8">
-            (Placeholder data)
-          </div>
-        )}
       </div>
     </div>
   );
