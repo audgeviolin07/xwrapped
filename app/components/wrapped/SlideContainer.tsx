@@ -12,12 +12,31 @@ import TwitterRankSlide from './slides/TwitterRankSlide';
 import SummarySlide from './slides/SummarySlide';
 
 interface SlideContainerProps {
-  data: WrappedData;
+  data: WrappedData | null;
+  loading: boolean;
+  error: string | null;
+  isAuthenticated: boolean;
+  onSlideChange?: (slideIndex: number) => void;
 }
 
-export default function SlideContainer({ data }: SlideContainerProps) {
+export default function SlideContainer({ data, loading, error, isAuthenticated, onSlideChange }: SlideContainerProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [fadeState, setFadeState] = useState<'in' | 'out'>('in');
+
+  useEffect(() => {
+    onSlideChange?.(currentSlide);
+  }, [currentSlide, onSlideChange]);
+
+  const getSlideColor = (index: number): string => {
+    switch (index) {
+      case 0: return '#00f5ff'; // cyan
+      case 1: return '#a855f7'; // purple
+      case 2: return '#00ff88'; // green
+      case 3: return '#ff006e'; // pink
+      case 4: return '#00f5ff'; // cyan
+      default: return '#00f5ff';
+    }
+  };
 
   const transitionToSlide = (newIndex: number) => {
     if (newIndex < 0 || newIndex >= TOTAL_SLIDES) return;
@@ -34,8 +53,8 @@ export default function SlideContainer({ data }: SlideContainerProps) {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') goToNext();
-      if (e.key === 'ArrowLeft') goToPrev();
+      if (e.key === 'ArrowRight' && currentSlide > 0) goToNext();
+      if (e.key === 'ArrowLeft' && currentSlide > 0) goToPrev();
     };
 
     window.addEventListener('keydown', handleKeyPress);
@@ -45,15 +64,23 @@ export default function SlideContainer({ data }: SlideContainerProps) {
   const renderSlide = () => {
     switch (currentSlide) {
       case 0:
-        return <WelcomeSlide data={data} />;
+        return (
+          <WelcomeSlide
+            data={data}
+            loading={loading}
+            error={error}
+            isAuthenticated={isAuthenticated}
+            onStart={goToNext}
+          />
+        );
       case 1:
-        return <PersonaSlide data={data} />;
+        return data ? <PersonaSlide data={data} /> : null;
       case 2:
-        return <ReplyGuySlide data={data} />;
+        return data ? <ReplyGuySlide data={data} /> : null;
       case 3:
-        return <TwitterRankSlide data={data} />;
+        return data ? <TwitterRankSlide data={data} /> : null;
       case 4:
-        return <SummarySlide data={data} />;
+        return data ? <SummarySlide data={data} /> : null;
       default:
         return null;
     }
@@ -70,14 +97,19 @@ export default function SlideContainer({ data }: SlideContainerProps) {
         {renderSlide()}
       </div>
 
-      <ProgressIndicator current={currentSlide + 1} total={TOTAL_SLIDES} />
+      {currentSlide > 0 && (
+        <>
+          <ProgressIndicator current={currentSlide + 1} total={TOTAL_SLIDES} color={getSlideColor(currentSlide)} />
 
-      <NavigationButtons
-        onPrev={goToPrev}
-        onNext={goToNext}
-        canGoPrev={currentSlide > 0}
-        canGoNext={currentSlide < TOTAL_SLIDES - 1}
-      />
+          <NavigationButtons
+            onPrev={goToPrev}
+            onNext={goToNext}
+            canGoPrev={currentSlide > 0}
+            canGoNext={currentSlide < TOTAL_SLIDES - 1}
+            color={getSlideColor(currentSlide)}
+          />
+        </>
+      )}
     </div>
   );
 }

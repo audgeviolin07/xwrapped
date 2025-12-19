@@ -12,6 +12,14 @@ const userCache = new Map<string, { data: UserProfile; expires: number }>();
 export async function GET() {
   const session = await getServerSession(authOptions);
 
+  // Check if session exists but has a refresh error
+  if (session?.error === "RefreshAccessTokenError") {
+    return NextResponse.json(
+      { error: "Session expired. Please sign in again." },
+      { status: 401 }
+    );
+  }
+
   if (!session?.accessToken) {
     return NextResponse.json(
       { error: "Not authenticated" },
