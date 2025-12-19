@@ -10,27 +10,20 @@
 interface GrokResponse {
   id: string;
   object: string;
-  created: number;
+  created_at: number;
   model: string;
-  choices: Array<{
-    index: number;
-    message: {
-      role: string;
-      content: string;
-      tool_calls?: Array<{
-        id: string;
-        type: string;
-        function: {
-          name: string;
-          arguments: string;
-        };
-      }>;
-    };
-    finish_reason: string;
+  output: Array<{
+    type: string;
+    content?: Array<{
+      type: string;
+      text: string;
+    }>;
+    role?: string;
+    status?: string;
   }>;
   usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
+    input_tokens: number;
+    output_tokens: number;
     total_tokens: number;
   };
 }
@@ -48,7 +41,10 @@ interface MBTIResult {
  */
 function parseMBTIFromResponse(response: GrokResponse): MBTIResult | null {
   try {
-    const content = response.choices[0]?.message?.content;
+    // Find the message output in the response
+    const messageOutput = response.output?.find(item => item.type === 'message');
+    const content = messageOutput?.content?.[0]?.text;
+
     if (!content) return null;
 
     console.log('[Grok] Raw response:', content);
@@ -133,15 +129,15 @@ Return your analysis as a JSON object in this exact format:
 
     console.log('[Persona] Calling Grok X Search API (server action)');
 
-    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+    const response = await fetch('https://api.x.ai/v1/responses', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'grok-2-1212',
-        messages: [
+        model: 'grok-4-1-fast',
+        input: [
           {
             role: 'system',
             content: 'You are an expert MBTI personality analyst. Use the X search tool to find and analyze tweets.'
@@ -153,7 +149,7 @@ Return your analysis as a JSON object in this exact format:
         ],
         tools: [
           {
-            type: 'live_search',
+            type: 'x_search',
             allowed_x_handles: [username]
           }
         ],
@@ -172,6 +168,7 @@ Return your analysis as a JSON object in this exact format:
     const duration = Date.now() - startTime;
 
     console.log(`[Persona] Grok analysis duration: ${duration}ms`);
+    console.log('[Grok] Full response structure:', JSON.stringify(data, null, 2));
 
     const result = parseMBTIFromResponse(data);
 
