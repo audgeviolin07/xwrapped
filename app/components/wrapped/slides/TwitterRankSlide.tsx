@@ -26,6 +26,9 @@ export default function TwitterRankSlide({ data }: SlideProps) {
         <div className={`bg-gradient-to-r ${gradientClass} rounded-2xl p-6 mb-4 text-white`}>
           <div className="text-sm opacity-80 mb-1">Level {classification.level}</div>
           <div className="text-3xl font-bold">{classification.title}</div>
+          <div className="text-sm opacity-80 mt-2">
+            {data.user.metrics.tweetCount.toLocaleString()} tweets
+          </div>
         </div>
 
         <div className="bg-zinc-100 dark:bg-zinc-900 rounded-2xl p-8 mb-6">
