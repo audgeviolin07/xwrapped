@@ -1,18 +1,4 @@
-import { PersonaData, ReplyGuyData, TwitterRankData, UserProfile } from '@/types/wrapped';
-
-export function getMockUserProfile(): UserProfile {
-  return {
-    name: "Demo User",
-    username: "demo_user",
-    profileImageUrl: undefined,
-    metrics: {
-      followersCount: 1234,
-      followingCount: 567,
-      tweetCount: 8901,
-      listedCount: 23
-    }
-  };
-}
+import { PersonaData, ReplyGuyData } from '@/types/wrapped';
 
 export function getMockPersona(): PersonaData {
   const personas = [
@@ -72,11 +58,3 @@ export function getMockReplyGuy(username: string): ReplyGuyData {
   };
 }
 
-export function getMockRank(): TwitterRankData {
-  return {
-    rank: Math.floor(Math.random() * 500000) + 10000,
-    percentile: Math.floor(Math.random() * 30) + 70, // 70-99
-    category: "Engagement",
-    isMock: true
-  };
-}

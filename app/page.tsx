@@ -22,7 +22,7 @@ export default function Home() {
             X Wrapped
           </h1>
           <p className="text-zinc-500 dark:text-zinc-400 mb-8">
-            See your year on X, wrapped up
+            See your year on X, wrapped up (Tech Twitter Edition)
           </p>
 
           <button
