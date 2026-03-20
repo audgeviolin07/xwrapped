@@ -61,7 +61,7 @@ export default function WelcomeSlide({ data, loading, error, isAuthenticated, on
     return (
         <div className="relative flex flex-col items-center justify-center h-screen w-screen p-4 md:p-8 bg-[#0a0a0a] overflow-hidden">
             {/* PixelBlast background - Cyan */}
-            <div className="absolute inset-0 z-0 opacity-30">
+            <div className="absolute inset-0 z-0" style={{ minHeight: '100vh', minWidth: '100vw', background: 'rgba(255,0,0,0.3)' }}>
                 <PixelBlast
                     variant="circle"
                     pixelSize={6}
@@ -79,7 +79,7 @@ export default function WelcomeSlide({ data, loading, error, isAuthenticated, on
                     liquidWobbleSpeed={5}
                     speed={0.6}
                     edgeFade={0.25}
-                    transparent={true}
+                    transparent={false}
                     className=""
                     style={{ width: '100%', height: '100%' }}
                 />
